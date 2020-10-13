@@ -12,7 +12,7 @@ from test_base import TestBase
 from gymie.exceptions import *
 
 
-def get_env_reto(env_id, seed=None):
+def retro_get_env(env_id, seed=None):
     try:
         env = retro.make(game=env_id)
     except FileNotFoundError:
@@ -28,7 +28,7 @@ class TestGymieRetro(TestBase):
 
     @classmethod
     def setUpClass(cls):
-        api.defs['get_env'] = get_env_reto
+        api.defs['get_env'] = retro_get_env
 
     @classmethod
     def tearDownClass(cls):
