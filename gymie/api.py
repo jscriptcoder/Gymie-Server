@@ -71,15 +71,22 @@ def space_info(space):
     name = space.__class__.__name__
     info = { 'name': name }
 
-    if name == 'Discrete':
+    if name in 'Discrete':
         info['n'] = space.n
     elif name == 'Box':
         info['shape'] = space.shape
 
         # I noticed that numpy.float32 isn't JSON serializable but numpy.float64 is.
-        # By applying float(x) we're converting into float64
-        info['low'] = [(float(x) if x != -np.inf else -1e100) for x in space.low]
-        info['high'] = [(float(x) if x != -np.inf else -1e100) for x in space.high]
+        info['low'] = space.low.astype('float64').tolist()
+        info['high'] = space.high.astype('float64').tolist()
+    elif name == 'MultiBinary':
+        info['n'] = space.n
+        info['shape'] = space.shape
+        info['low'] = [0]
+        info['high'] = [1]
+    elif name == 'MultiDiscrete':
+        pass
+
     # TODO other shapes
 
     return info

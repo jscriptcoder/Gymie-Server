@@ -105,27 +105,30 @@ class TestGymieRetro(TestBase):
         self.assertTrue(type(done) == bool)
         self.assertTrue(type(info) == dict)
 
-    # def test_observation_space(self):
-    #     instance_id = self.make_env('CartPole-v1')
-    #     env = gymie.lookup_env(instance_id)
+    def test_observation_space(self):
+        instance_id = self.make_env('Airstriker-Genesis')
+        env = api.lookup_env(instance_id)
 
-    #     gymie.observation_space(self.ws, instance_id)
-    #     info = json.loads(self.ws.send.call_args[0][0])
+        api.observation_space(self.ws, instance_id)
+        info = json.loads(self.ws.send.call_args[0][0])
 
-    #     self.assertEqual(info['name'], 'Box')
-    #     self.assertEqual(info['shape'], list(env.observation_space.shape))
-    #     self.assertEqual(info['low'], list(env.observation_space.low))
-    #     self.assertEqual(info['high'], list(env.observation_space.high))
+        self.assertEqual(info['name'], 'Box')
+        self.assertEqual(info['shape'], list(env.observation_space.shape))
+        self.assertEqual(info['low'], env.observation_space.low.tolist())
+        self.assertEqual(info['high'], env.observation_space.high.tolist())
 
-    # def test_action_space(self):
-    #     instance_id = self.make_env('CartPole-v1')
-    #     env = gymie.lookup_env(instance_id)
+    def test_action_space(self):
+        instance_id = self.make_env('Airstriker-Genesis')
+        env = api.lookup_env(instance_id)
 
-    #     gymie.action_space(self.ws, instance_id)
-    #     info = json.loads(self.ws.send.call_args[0][0])
+        api.action_space(self.ws, instance_id)
+        info = json.loads(self.ws.send.call_args[0][0])
 
-    #     self.assertEqual(info['name'], 'Discrete')
-    #     self.assertEqual(info['n'], env.action_space.n)
+        self.assertEqual(info['name'], 'MultiBinary')
+        self.assertEqual(info['n'], env.action_space.n)
+        self.assertEqual(info['shape'], [env.action_space.n])
+        self.assertEqual(info['low'], [0])
+        self.assertEqual(info['high'], [1])
 
     def test_action_sample(self):
         instance_id = self.make_env('Airstriker-Genesis')
