@@ -1,8 +1,9 @@
 import json
 import eventlet
+import argparse
 from eventlet import wsgi, websocket
-from .api import methods
-from .exceptions import *
+from gymie.api import methods
+from gymie.exceptions import *
 
 
 #####################################
@@ -52,10 +53,15 @@ def dispatch(environ, start_response):
         start_response('200 OK', [('Content-Type', 'text/plain')])
         return ['Gymie is running...']
 
-def start(host, port):
+def start(host='0.0.0.0', port=5000):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-l', '--host', default=host)
+    parser.add_argument('-p', '--port', default=port, type=int)
+    args = parser.parse_args()
+    
     try:
-        listener = eventlet.listen((args.host, args.port), reuse_port=False)
+        listener = eventlet.listen((host, port), reuse_port=False)
     except OSError as err:
-        print(f'Address http://{args.host}:{args.port} already in use')
+        print(f'Address http://{host}:{port} already in use')
     else:
         wsgi.server(listener, dispatch)

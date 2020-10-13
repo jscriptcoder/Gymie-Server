@@ -2,7 +2,7 @@ import gym
 import json
 import uuid
 import numpy as np
-from .exceptions import *
+from gymie.exceptions import *
 
 ##########################
 # Environments Container #
