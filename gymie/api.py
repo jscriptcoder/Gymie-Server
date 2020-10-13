@@ -11,17 +11,10 @@ from gymie.exceptions import *
 envs = {}
 
 
-#########################################
-# Gym.Env Wrapper Functions and Helpers #
-#########################################
-
-def lookup_env(instance_id):
-    try:
-        return envs[instance_id]
-    except KeyError:
-        raise InstanceNotFound(instance_id)
-
-def openai_gym_get_env(env_id, seed=None):
+#######################
+# Overridable methods #
+#######################
+def get_env(env_id, seed=None):
     try:
         env = gym.make(env_id)
     except gym.error.UnregisteredEnv:
@@ -34,8 +27,27 @@ def openai_gym_get_env(env_id, seed=None):
         
         return env
 
-# Allows overriding to define other Gym-api like wrappers
-defs = { 'get_env': openai_gym_get_env }
+def process_step(step):
+    observation, reward, done, info = step
+    return observation.tolist(), reward, done, info
+
+# Allows overriding to use other Gym-api like wrappers
+# such as Unity ML-Agents or Gym Retro
+defs = { 
+    'get_env': get_env,
+    'process_step': process_step
+}
+
+
+#########################################
+# Gym.Env Wrapper Functions and Helpers #
+#########################################
+
+def lookup_env(instance_id):
+    try:
+        return envs[instance_id]
+    except KeyError:
+        raise InstanceNotFound(instance_id)
 
 def make(ws, env_id, **kwargs):
     env = defs['get_env'](env_id, **kwargs)
@@ -50,11 +62,11 @@ def step(ws, instance_id, action, render=False):
         env.render()
 
     try:
-        observation, reward, done, info = env.step(action)
+        step = env.step(action)
     except:
         raise WrongAction(str(action))
     else:
-        ws.send(json.dumps([observation.tolist(), reward, done, info]))
+        ws.send(json.dumps(defs['process_step'](step)))
 
 def reset(ws, instance_id):
     state = lookup_env(instance_id).reset()
@@ -105,10 +117,8 @@ def action_sample(ws, instance_id):
     env = lookup_env(instance_id)
     action = env.action_space.sample()
     if hasattr(action, 'tolist'):
-        serialized_action = json.dumps(action.tolist())
-    else:
-        serialized_action = str(action)
-    ws.send(serialized_action)
+        action = action.tolist()
+    ws.send(str(action))
 
 
 #########################################

@@ -32,11 +32,11 @@ class TestGymieRetro(TestBase):
 
     @classmethod
     def tearDownClass(cls):
-        api.defs['get_env'] = api.openai_gym_get_env
+        api.defs['get_env'] = api.get_env
     
     def assert_valid_state(self, state, shape=(224, 320, 3)):
         self.assertTrue(type(state) == list)
-        self.assertEqual(np.array(state).shape, (224, 320, 3))
+        self.assertEqual(np.array(state).shape, shape)
     
     def test_get_env(self):
         with self.assertRaises(EnvironmentNotFound):

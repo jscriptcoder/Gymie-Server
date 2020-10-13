@@ -44,13 +44,13 @@ class TestGymie(TestBase):
 
         # TODO: test more exceptions
     
-    def test_openai_gym_get_env(self):
+    def test_get_env(self):
         with self.assertRaises(EnvironmentMalformed):
-            env = api.openai_gym_get_env('malformed')
+            env = api.get_env('malformed')
         with self.assertRaises(EnvironmentNotFound):
-            env = api.openai_gym_get_env('NotFound-v1')
+            env = api.get_env('NotFound-v1')
         
-        env = api.openai_gym_get_env('CartPole-v1')
+        env = api.get_env('CartPole-v1')
         self.assertTrue(env.spec.id == 'CartPole-v1')
 
     def test_make(self):
