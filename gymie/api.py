@@ -40,14 +40,11 @@ def override(func_name):
     Raises:
         AssertionError: wrong function to override
     """
-
+    assert func_name in ['get_env', 'process_step'], \
+        'Error overriding. Functions available: `get_env`, `process_step`'
+    
     def inner_override(fn):
-        assert(
-            func_name in ['get_env', 'process_step'], 
-            'Error overriding. Functions available: `get_env`, `process_step`')
-
         globals()[func_name] = fn
-
         return fn
     
     return inner_override
