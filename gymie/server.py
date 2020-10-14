@@ -11,6 +11,30 @@ from gymie.exceptions import *
 #####################################
 
 def message_handle(ws, message):
+    """This function will process the message received by the client
+    
+    Args:
+        ws (WebSocket): socket for communication with the client
+        message (str): JSON string coming from the client
+    
+    Raises:
+        json.JSONDecodeError: 
+            there was a problem decoding the JSON string
+        KeyError: 
+            there was a problem with the parameters sent by the client
+        TypeError: 
+            there was a problem with the parameters sent by the client
+        InstanceNotFound: 
+            instance id is not in the dictionary of envs
+        EnvironmentMalformed:
+            wrong environment's id
+        EnvironmentNotFound:
+            environment's id is not registered
+        WrongAction:
+            there was a problem executing the action on the environment
+        Exception:
+            there was an unknonwn error
+    """
     try:
         data = json.loads(message)
         method = data['method']
@@ -40,6 +64,11 @@ def message_handle(ws, message):
 
 @websocket.WebSocketWSGI
 def gym_handle(ws):
+    """This function handles socket communication
+    
+    Args:
+        ws (WebSocket): socket for communication with the client
+    """
     while True:
         message = ws.wait()
         if message is None: 
@@ -47,6 +76,14 @@ def gym_handle(ws):
         message_handle(ws, message)
 
 def dispatch(environ, start_response):
+    """WSGI application function
+
+    Args:
+        environ: 
+            additional parameters that go into the environ dictionary of every request
+        start_response:
+            function that sends a http response to the client
+    """
     if environ['PATH_INFO'] == '/gym':
         return gym_handle(environ, start_response)
     else:

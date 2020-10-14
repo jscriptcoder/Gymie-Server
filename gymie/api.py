@@ -4,17 +4,28 @@ import uuid
 import numpy as np
 from gymie.exceptions import *
 
-##########################
-# Environments Container #
-##########################
 
+# Dictionary containing a list of pairs unique-id/environment
 envs = {}
-
 
 #######################
 # Overridable methods #
 #######################
+
 def get_env(env_id, seed=None):
+    """Instantiates a Gym environment
+    
+    Args:
+        env_id (str): environment id
+        seed (int): optional; initial seed for randomnes
+    
+    Returns:
+        Gym environment
+    
+    Raises:
+        EnvironmentNotFound: environment env_id does not exist
+        EnvironmentMalformed: env_id is not correct
+    """
     try:
         env = gym.make(env_id)
     except gym.error.UnregisteredEnv:
@@ -28,6 +39,15 @@ def get_env(env_id, seed=None):
         return env
 
 def process_step(step):
+    """Does some processing of the step
+    
+    Args:
+        step (tuple(np.array(float), float, bool, dict)):
+            returns by environment.step method
+    
+    Returns:
+        Processed step
+    """
     observation, reward, done, info = step
     return observation.tolist(), reward, done, info
 
@@ -44,18 +64,48 @@ defs = {
 #########################################
 
 def lookup_env(instance_id):
+    """Looks up an environment based on instance id
+
+    Args:
+        instance_id (str): given instance id
+    
+    Returns:
+        Gym environment
+    
+    Raises:
+        InstanceNotFound: instance isn't found in the dictionary
+    """
     try:
         return envs[instance_id]
     except KeyError:
         raise InstanceNotFound(instance_id)
 
 def make(ws, env_id, **kwargs):
+    """API method. Instantiates an environment
+    and sends the instance id to the client
+
+    Args:
+        ws (WebSocket): socket where to send stuff
+        env_id (str): environment id
+    """
     env = defs['get_env'](env_id, **kwargs)
     instance_id = uuid.uuid4().hex
     envs[instance_id] = env
     ws.send(instance_id)
 
 def step(ws, instance_id, action, render=False):
+    """API method. Performs a step in the environment
+    and sends the result to the client
+
+    Args:
+        ws (WebSocket): socket for communication with the client
+        instance_id (str): env's instance id where to execute the step
+        action (int|list): action to send to the environment
+        render (bool): optional; whether or not to render the scene
+    
+    Raises:
+        WrongAction: there was an issue executing the action
+    """
     env = lookup_env(instance_id)
 
     if render: 
@@ -69,10 +119,22 @@ def step(ws, instance_id, action, render=False):
         ws.send(json.dumps(defs['process_step'](step)))
 
 def reset(ws, instance_id):
+    """API method. Resets the environment
+    and sends the initial state to the client
+
+    Args:
+        instance_id (str): instance id of the env to reset
+    """
     state = lookup_env(instance_id).reset()
     ws.send(str(state.tolist()))
     
 def close(ws, instance_id):
+    """API method. Closes the environment
+    and sends confirmation to the client
+
+    Args:
+        instance_id (str): instance id of the env to close
+    """
     lookup_env(instance_id).close()
     del envs[instance_id]
 
@@ -80,6 +142,15 @@ def close(ws, instance_id):
     ws.send(json.dumps(isClosed))
 
 def space_info(space):
+    """Returns information about the space in a dictionary
+
+    Args:
+        space (Space): space to extract info from
+    
+    Returns:
+        Dictionary with information about the space such as 
+        type of space, shape, low and high values, etc...
+    """
     name = space.__class__.__name__
     info = { 'name': name }
 
@@ -104,16 +175,34 @@ def space_info(space):
     return info
 
 def observation_space(ws, instance_id):
+    """API method. Generate a dictionary with space info 
+    and sends it to the client
+
+    Args:
+        instance_id (str): environment's instance id
+    """
     space = lookup_env(instance_id).observation_space
     info = space_info(space)
     ws.send(json.dumps(info))
 
 def action_space(ws, instance_id):
+    """API method. Generate a dictionary with space info 
+    and sends it to the client
+
+    Args:
+        instance_id (str): environment's instance id
+    """
     space = lookup_env(instance_id).action_space
     info = space_info(space)
     ws.send(json.dumps(info))
 
 def action_sample(ws, instance_id):
+    """API method. Generates a random action
+    and sends it to the client
+
+    Args:
+        instance_id (str): environment's instance id
+    """
     env = lookup_env(instance_id)
     action = env.action_space.sample()
     if hasattr(action, 'tolist'):
