@@ -2,3 +2,6 @@ __pycache__
 .vscode
 .ipynb_checkpoints
 *.ipynb
+build
+dist
+*.egg-info
