@@ -24,7 +24,7 @@ Obtaining file:///path/to/Gymie-Server
 Successfully installed gymie
 ```
 
-## How to use
+## How to start the server
 
 You can start the server from the command line:
 
@@ -40,3 +40,5 @@ import gymie
 
 gymie.start('localhost', 9000)
 ```
+
+## API and how to consume it
