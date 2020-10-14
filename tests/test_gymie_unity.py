@@ -7,6 +7,7 @@ import unittest
 import numpy as np
 import gymie.server as server
 import gymie.api as api
+from gymie.api import override
 from functools import reduce
 from test_base import TestBase
 from gymie.exceptions import *
@@ -14,6 +15,7 @@ from mlagents_envs.environment import UnityEnvironment, UnityEnvironmentExceptio
 from gym_unity.envs import UnityToGymWrapper
 
 
+@override('get_env')
 def unity_get_env(file_name, 
                   seed=None, 
                   worker_id=0, 
@@ -37,6 +39,7 @@ def unity_get_env(file_name,
     else:
         return env
 
+@override('process_step')
 def unity_process_step(step):
     observation, reward, done, info = step
     return observation.tolist(), float(reward), done, {}
@@ -46,25 +49,15 @@ env_path = f'{dir_path}/unity_env/PushBlock.app'
 
 class TestGymieUnity(TestBase):
 
-    @classmethod
-    def setUpClass(cls):
-        api.defs['get_env'] = unity_get_env
-        api.defs['process_step'] = unity_process_step
-
-    @classmethod
-    def tearDownClass(cls):
-        api.defs['get_env'] = api.get_env
-        api.defs['process_step'] = api.process_step
-    
     def assert_valid_state(self, state, shape=(210,)):
         self.assertTrue(type(state) == list)
         self.assertEqual(np.array(state).shape, shape)
     
     def test_get_env(self):
         with self.assertRaises(EnvironmentNotFound):
-            env = api.defs['get_env'](f'{dir_path}/not_found')
+            env = api.get_env(f'{dir_path}/not_found')
 
-        env = api.defs['get_env'](env_path)
+        env = api.get_env(env_path)
         self.assertTrue(type(env), UnityToGymWrapper)
 
         env.close()

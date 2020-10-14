@@ -2,7 +2,7 @@ import json
 import eventlet
 import argparse
 from eventlet import wsgi, websocket
-from gymie.api import methods
+from gymie.api import public
 from gymie.exceptions import *
 
 
@@ -46,7 +46,7 @@ def message_handle(ws, message):
         ws.close((1003, 'Message keys {} are missing or invalid'.format(keys)))
     else:
         try:
-            methods[method](ws, **params)
+            public[method](ws, **params)
         except KeyError:
             ws.close((1007, 'Method `{}` not found'.format(method)))
         except TypeError:
@@ -91,6 +91,12 @@ def dispatch(environ, start_response):
         return ['Gymie is running...']
 
 def start(host='0.0.0.0', port=5000):
+    """Starts the server
+
+    Args:
+        host (str): default value '0.0.0.0'
+        port (int): default value 5000
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('-l', '--host', default=host)
     parser.add_argument('-p', '--port', default=port, type=int)

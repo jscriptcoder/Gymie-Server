@@ -7,11 +7,13 @@ import unittest
 import numpy as np
 import gymie.server as server
 import gymie.api as api
+from gymie.api import override
 from functools import reduce
 from test_base import TestBase
 from gymie.exceptions import *
 
 
+@override('get_env')
 def retro_get_env(env_id, seed=None):
     try:
         env = retro.make(game=env_id)
@@ -26,23 +28,15 @@ def retro_get_env(env_id, seed=None):
 
 class TestGymieRetro(TestBase):
 
-    @classmethod
-    def setUpClass(cls):
-        api.defs['get_env'] = retro_get_env
-
-    @classmethod
-    def tearDownClass(cls):
-        api.defs['get_env'] = api.get_env
-    
     def assert_valid_state(self, state, shape=(224, 320, 3)):
         self.assertTrue(type(state) == list)
         self.assertEqual(np.array(state).shape, shape)
     
     def test_get_env(self):
         with self.assertRaises(EnvironmentNotFound):
-            env = api.defs['get_env']('not_found')
+            env = api.get_env('not_found')
         
-        env = api.defs['get_env']('Airstriker-Genesis')
+        env = api.get_env('Airstriker-Genesis')
         self.assertTrue(env.gamename == 'Airstriker-Genesis')
     
     def test_make(self):

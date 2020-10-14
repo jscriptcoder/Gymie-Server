@@ -8,9 +8,54 @@ from gymie.exceptions import *
 # Dictionary containing a list of pairs unique-id/environment
 envs = {}
 
-#######################
-# Overridable methods #
-#######################
+# Exposed API accessible via string key
+public = {}
+
+
+##############
+# Decorators #
+##############
+
+def public_api(fn):
+    """Decorator that populates the dictionary of public api
+    
+    Args:
+        fn: api function
+    """
+    public[fn.__name__] = fn
+    return fn
+
+def override(func_name):
+    """Decorator that overrides internal functionality
+    giving the possibility of using different Gym-like env wrappers
+    such as Unity ML-Agents or Gym Retro.
+    
+    Currently there are two functions to override:
+    1. get_env: instantiates a Gym environment
+    2. process_step: does some processing of the environment step
+
+    Args:
+        func_name (str): function to override
+    
+    Raises:
+        AssertionError: wrong function to override
+    """
+
+    def inner_override(fn):
+        assert(
+            func_name in ['get_env', 'process_step'], 
+            'Error overriding. Functions available: `get_env`, `process_step`')
+
+        globals()[func_name] = fn
+
+        return fn
+    
+    return inner_override
+
+
+#############
+# API logic #
+#############
 
 def get_env(env_id, seed=None):
     """Instantiates a Gym environment
@@ -51,18 +96,6 @@ def process_step(step):
     observation, reward, done, info = step
     return observation.tolist(), reward, done, info
 
-# Allows overriding to use other Gym-api like wrappers
-# such as Unity ML-Agents or Gym Retro
-defs = { 
-    'get_env': get_env,
-    'process_step': process_step
-}
-
-
-#########################################
-# Gym.Env Wrapper Functions and Helpers #
-#########################################
-
 def lookup_env(instance_id):
     """Looks up an environment based on instance id
 
@@ -80,6 +113,7 @@ def lookup_env(instance_id):
     except KeyError:
         raise InstanceNotFound(instance_id)
 
+@public_api
 def make(ws, env_id, **kwargs):
     """API method. Instantiates an environment
     and sends the instance id to the client
@@ -88,11 +122,12 @@ def make(ws, env_id, **kwargs):
         ws (WebSocket): socket where to send stuff
         env_id (str): environment id
     """
-    env = defs['get_env'](env_id, **kwargs)
+    env = get_env(env_id, **kwargs)
     instance_id = uuid.uuid4().hex
     envs[instance_id] = env
     ws.send(instance_id)
 
+@public_api
 def step(ws, instance_id, action, render=False):
     """API method. Performs a step in the environment
     and sends the result to the client
@@ -116,8 +151,9 @@ def step(ws, instance_id, action, render=False):
     except:
         raise WrongAction(str(action))
     else:
-        ws.send(json.dumps(defs['process_step'](step)))
+        ws.send(json.dumps(process_step(step)))
 
+@public_api
 def reset(ws, instance_id):
     """API method. Resets the environment
     and sends the initial state to the client
@@ -127,7 +163,8 @@ def reset(ws, instance_id):
     """
     state = lookup_env(instance_id).reset()
     ws.send(str(state.tolist()))
-    
+
+@public_api
 def close(ws, instance_id):
     """API method. Closes the environment
     and sends confirmation to the client
@@ -174,6 +211,7 @@ def space_info(space):
 
     return info
 
+@public_api
 def observation_space(ws, instance_id):
     """API method. Generate a dictionary with space info 
     and sends it to the client
@@ -185,6 +223,7 @@ def observation_space(ws, instance_id):
     info = space_info(space)
     ws.send(json.dumps(info))
 
+@public_api
 def action_space(ws, instance_id):
     """API method. Generate a dictionary with space info 
     and sends it to the client
@@ -196,6 +235,7 @@ def action_space(ws, instance_id):
     info = space_info(space)
     ws.send(json.dumps(info))
 
+@public_api
 def action_sample(ws, instance_id):
     """API method. Generates a random action
     and sends it to the client
@@ -208,18 +248,3 @@ def action_sample(ws, instance_id):
     if hasattr(action, 'tolist'):
         action = action.tolist()
     ws.send(str(action))
-
-
-#########################################
-# Exposed API accessible via string key #
-#########################################
-
-methods = {
-    'make': make,
-    'reset': reset,
-    'step': step,
-    'close': close,
-    'observation_space': observation_space,
-    'action_space': action_space,
-    'action_sample': action_sample
-}
