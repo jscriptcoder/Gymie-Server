@@ -26,3 +26,17 @@ Successfully installed gymie
 
 ## How to use
 
+You can start the server from the command line:
+
+```
+$ python gymie --host 0.0.0.0 --port 5000
+(84581) wsgi starting up on http://0.0.0.0:5000
+```
+
+or programmatically:
+
+```python
+import gymie
+
+gymie.start('localhost', 9000)
+```
