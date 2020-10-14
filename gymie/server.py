@@ -1,6 +1,5 @@
 import json
 import eventlet
-import argparse
 from eventlet import wsgi, websocket
 from gymie.api import public
 from gymie.exceptions import *
@@ -97,11 +96,6 @@ def start(host='0.0.0.0', port=5000):
         host (str): default value '0.0.0.0'
         port (int): default value 5000
     """
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--host', default=host)
-    parser.add_argument('-p', '--port', default=port, type=int)
-    args = parser.parse_args()
-    
     try:
         listener = eventlet.listen((host, port), reuse_port=False)
     except OSError as err:
