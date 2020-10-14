@@ -16,8 +16,11 @@ or by cloning the [repo](https://github.com/jscriptcoder/Gymie-Server) and runni
 $ git clone https://github.com/jscriptcoder/Gymie-Server.git
 Cloning into 'Gymie-Server'...
 ...
+
 $ cd Gymie-Server/
 pip install -e .
+Obtaining file:///path/to/Gymie-Server
+...
 ```
 
 ## How to use
