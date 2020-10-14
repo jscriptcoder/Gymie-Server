@@ -10,7 +10,7 @@ Gymie can be installed using:
 $ pip install gymie
 ```
 
-or by cloning the [repo](https://github.com/jscriptcoder/Gymie-Server) and pip-installing from the folder:
+or by cloning the [repo](https://github.com/jscriptcoder/Gymie-Server) and pip-installing in editable mode from the folder:
 
 ```
 $ git clone https://github.com/jscriptcoder/Gymie-Server.git
