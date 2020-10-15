@@ -6,13 +6,17 @@ WebSocket server that exposes an API to train AI agents on [OpenAI Gym](https://
 - [Installation](#installation)
 - [How to start the server](#how-to-start-the-server)
 - [API and how to consume it](#api-and-how-to-consume-it)
-  - [make](#make)
-  - [step](#step)
-  - [reset](#reset)
-  - [close](#close)
-  - [observation_space](#observation_space)
-  - [action_space](#action_space)
-  - [action_sample](#action_sample)
+  - [List of methods exposed to the client](list-of-methods-exposed-to-the-client)
+    - [make](#make)
+    - [step](#step)
+    - [reset](#reset)
+    - [close](#close)
+    - [observation_space](#observation_space)
+    - [action_space](#action_space)
+    - [action_sample](#action_sample)
+  - [Programmatic API](#programmatic-api)
+    - [@override](#override)
+    - [start](#start)
 - [Testing Gymie](#testing-gymie)
 
 ## Installation
@@ -69,7 +73,7 @@ A client can communicate with Gymie via JSON, with the following format:
 }
 ```
 
-#### List of methods:
+### List of methods exposed to the client
 - <a name="make">`make`<a>: Instantiates an environment. 
  ```js
  // Params:
@@ -173,19 +177,68 @@ A client can communicate with Gymie via JSON, with the following format:
  }
  ```
  - <a name="action_sample">`action_sample`<a>: Generates a random action.
-  ```js
- // Params:
- {
-   "instance_id": "instance-id"
- }
- 
- // Response for Discrete actions:
- 2
+```js
+// Params:
+{
+ "instance_id": "instance-id"
+}
 
- // Response for Continuous actions:
- [1.52, -3.67]
- ```
+// Response for Discrete actions:
+2
+
+// Response for Continuous actions:
+[1.52, -3.67]
+```
  
- ## Testing Gymie
- 
- TODO
+### Programmatic API
+
+- <a name="override">`@override`</a>: Decorator to override internal functionality. It takes a string, function's name, as an argument. This is useful if we want to use different gym-like wrappers. For example, both Gym Retro and Unity ML-Agents have different ways to instantiate an environment. You can take a look at the tests to see how it's done for [Gym Retro](tests/test_gymie_retro.py) and [Unity ML-Agents](https://github.com/jscriptcoder/Gymie-Server/blob/main/tests/test_gymie_unity.py) (with the help of [gym-unity](https://github.com/Unity-Technologies/ml-agents/tree/master/gym-unity)). At the moment there are two internal functions that can be overriden, `get_env` and `process_step`.
+
+Signature:
+```python
+def override(func_name: str) -> Callable
+````
+
+How to use:
+```python
+import retro
+from gymie import override
+from gym_unity.envs import UnityToGymWrapper
+from mlagents_envs.environment import UnityEnvironment, UnityEnvironmentException
+
+@override('get_env')
+def retro_get_env(env_id, seed=None):
+    """Instantiates a Gym environment"""
+    try:
+        env = retro.make(game=env_id)
+    except FileNotFoundError:
+        raise EnvironmentNotFound
+    else:
+        if seed: 
+            env.seed(seed)
+
+        return env
+
+
+@override('process_step')
+def unity_process_step(step):
+    """Does some processing of the step"""
+    observation, reward, done, info = step
+    return observation.tolist(), float(reward), done, {}
+```
+
+- <a name="start">`start`</a>: This function takes two arguments, host and port, and starts the server, listening on `host:port`
+
+Signature:
+```python
+def start (host: str = '0.0.0.0', port: int = 5000) -> None
+```
+
+How to use:
+```python
+import gymie
+
+gymie.start('localhost', 8080)
+```
+
+## Testing Gymie
