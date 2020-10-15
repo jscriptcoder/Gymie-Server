@@ -123,7 +123,7 @@ A client can communicate with Gymie via JSON, with the following format:
  // Response:
  true
  ```
-- <a name="observation_space">`observation_space`<a>: Generates a dictionary with abservation space info.
+- <a name="observation_space">`observation_space`<a>: Generates a dictionary with observation space info.
  ```js
  // Params:
  {
