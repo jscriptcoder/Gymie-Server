@@ -6,14 +6,14 @@ WebSocket server that exposes an API to train AI agents on [OpenAI Gym](https://
 - [Installation](#installation)
 - [How to start the server](#how-to-start-the-server)
 - [API and how to consume it](#api-and-how-to-consume-it)
-  - make
-  - step
-  - reset
-  - close
-  - observation_space
-  - action_space
-  - action_sample
-  
+  - [make](#make)
+  - [step](#step)
+  - [reset](#reset)
+  - [close](#close)
+  - [observation_space](#observation_space)
+  - [action_space](#action_space)
+  - [action_sample](#action_sample)
+- [Testing Gymie](#testing-gymie)
 
 ## Installation
 
@@ -70,7 +70,7 @@ A client can communicate with Gymie via JSON, with the following format:
 ```
 
 #### List of methods:
-- `make`: Instantiates an environment. 
+- <a name="make">`make`<a>: Instantiates an environment. 
  ```js
  // Params:
  {
@@ -83,7 +83,7 @@ A client can communicate with Gymie via JSON, with the following format:
    "instance_id": "unique-id"
  }
  ```
-- `step`: Performs a step in the environment. 
+- <a name="step">`step`<a>: Performs a step in the environment. 
  ```js
  // Params:
  {
@@ -99,7 +99,7 @@ A client can communicate with Gymie via JSON, with the following format:
    {...}, // info
  ]
  ```
-- `reset`: Resets the environment.
+- <a name="reset">`reset`<a>: Resets the environment.
  ```js
  // Params:
  {
@@ -109,7 +109,7 @@ A client can communicate with Gymie via JSON, with the following format:
  // Response:
  [...] // initial state
  ```
-- `close`: Closes the environment.
+- <a name="close">`close`<a>: Closes the environment.
  ```js
  // Params:
  {
@@ -119,7 +119,7 @@ A client can communicate with Gymie via JSON, with the following format:
  // Response:
  true
  ```
-- `observation_space`: Generates a dictionary with abservation space info.
+- <a name="observation_space">`observation_space`<a>: Generates a dictionary with abservation space info.
  ```js
  // Params:
  {
@@ -151,7 +151,7 @@ A client can communicate with Gymie via JSON, with the following format:
  
  // TODO MultiDiscrete
  ```
-- `action_space`: Generates a dictionary with action space info.
+- <a name="action_space">`action_space`<a>: Generates a dictionary with action space info.
  ```js
  // Params:
  {
@@ -172,7 +172,7 @@ A client can communicate with Gymie via JSON, with the following format:
    "high":  [1, 1, 1]
  }
  ```
- - `action_sample`: Generates a random action.
+ - <a name="action_sample">`action_sample`<a>: Generates a random action.
   ```js
  // Params:
  {
@@ -185,3 +185,7 @@ A client can communicate with Gymie via JSON, with the following format:
  // Response for Continuous actions:
  [1.52, -3.67]
  ```
+ 
+ ## Testing Gymie
+ 
+ TODO
