@@ -56,7 +56,7 @@ A client can communicate with Gymie via JSON, with the following format:
 }
 ```
 
-#### List of methods
+#### List of methods:
 - `make`: Instantiates an environment. 
  ```js
  // Params:
