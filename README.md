@@ -18,7 +18,7 @@ WebSocket server that exposes an API to train AI agents on [OpenAI Gym](https://
     - [@override](#override)
     - [start](#start)
 - [Testing Gymie](#testing-gymie)
-- [Licence](#licence)
+- [Licence](#license)
 
 ## Installation
 
@@ -253,4 +253,4 @@ In order to run [`test_gymie_retro.py`](tests/test_gymie_retro.py) you need to h
 
 ## License
 
-[MIT License - Copyright (c) 2020 Francisco Ramos](LICENSE)
+[MIT License](LICENSE) - Copyright (c) 2020 Francisco Ramos
