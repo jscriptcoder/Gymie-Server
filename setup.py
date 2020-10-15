@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="gymie",
-    version="0.3.0",
+    version="0.4.0",
     author="Francisco Ramos",
     author_email="francisco.ramos@researchlab.ai",
     description="WebSocket server that exposes an API to train AI agents on OpenAI Gym and gym-api-like Environments",
