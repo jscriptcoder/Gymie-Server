@@ -210,7 +210,7 @@ def space_info(space):
 
 @public_api
 def observation_space(ws, instance_id):
-    """API method. Generate a dictionary with space info 
+    """API method. Generates a dictionary with space info 
     and sends it to the client
 
     Args:
@@ -222,7 +222,7 @@ def observation_space(ws, instance_id):
 
 @public_api
 def action_space(ws, instance_id):
-    """API method. Generate a dictionary with space info 
+    """API method. Generates a dictionary with space info 
     and sends it to the client
 
     Args:
