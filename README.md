@@ -194,12 +194,12 @@ A client can communicate with Gymie via JSON, with the following format:
 
 - <a name="override">`@override`</a>: Decorator to override internal functionality. It takes a string, function's name, as an argument. This is useful if we want to use different gym-like wrappers. For example, both Gym Retro and Unity ML-Agents have different ways to instantiate an environment. You can take a look at the tests to see how it's done for [Gym Retro](tests/test_gymie_retro.py) and [Unity ML-Agents](https://github.com/jscriptcoder/Gymie-Server/blob/main/tests/test_gymie_unity.py) (with the help of [gym-unity](https://github.com/Unity-Technologies/ml-agents/tree/master/gym-unity)). At the moment there are two internal functions that can be overriden, `get_env` and `process_step`.
 
-Signature:
+#### Signature:
 ```python
 def override(func_name: str) -> Callable
 ````
 
-How to use:
+#### How to use:
 ```python
 import retro
 from gymie import override
@@ -229,12 +229,12 @@ def unity_process_step(step):
 
 - <a name="start">`start`</a>: This function takes two arguments, host and port, and starts the server, listening on `host:port`
 
-Signature:
+#### Signature:
 ```python
 def start (host: str = '0.0.0.0', port: int = 5000) -> None
 ```
 
-How to use:
+#### How to use:
 ```python
 import gymie
 
@@ -242,3 +242,10 @@ gymie.start('localhost', 8080)
 ```
 
 ## Testing Gymie
+
+You can run all the tests by executing `run_tests.sh` script:
+```
+$ ./run_tests.sh
+```
+
+In order to run [`test_gymie_retro.py`](tests/test_gymie_retro.py) you need to have [gym-retro](https://pypi.org/project/gym-retro/) package installed. For [`tests/test_gymie_unity.py`](tests/test_gymie_unity.py), you need [mlagents-envs](https://pypi.org/project/mlagents-envs/) and [gym-unity](https://pypi.org/project/gym-unity/). 
