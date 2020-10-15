@@ -227,7 +227,7 @@ def unity_process_step(step):
     return observation.tolist(), float(reward), done, {}
 ```
 
-- <a name="start">`start`</a>: This function takes two arguments, host and port, and starts the server, listening on `host:port`
+- <a name="start">`start`</a>: This function takes two arguments, host and port, and starts the server, listening on `ws://host:port`
 
 #### Signature:
 ```python
