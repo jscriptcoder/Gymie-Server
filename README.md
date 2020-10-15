@@ -93,7 +93,7 @@ A client can communicate with Gymie via JSON, with the following format:
  // Params:
  {
    "instance_id": "instance-id"
-   "action":      "CartPole-v1"
+   "action":      [1, 0, 1] // MultiBinary action
  }
  
  // Response:
