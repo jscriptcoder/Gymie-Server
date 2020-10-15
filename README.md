@@ -18,6 +18,7 @@ WebSocket server that exposes an API to train AI agents on [OpenAI Gym](https://
     - [@override](#override)
     - [start](#start)
 - [Testing Gymie](#testing-gymie)
+- [Licence](#licence)
 
 ## Installation
 
@@ -249,3 +250,7 @@ $ ./run_tests.sh
 ```
 
 In order to run [`test_gymie_retro.py`](tests/test_gymie_retro.py) you need to have [gym-retro](https://pypi.org/project/gym-retro/) package installed. For [`tests/test_gymie_unity.py`](tests/test_gymie_unity.py), you need [mlagents-envs](https://pypi.org/project/mlagents-envs/) and [gym-unity](https://pypi.org/project/gym-unity/). 
+
+## License
+
+[MIT License - Copyright (c) 2020 Francisco Ramos](LICENSE)
