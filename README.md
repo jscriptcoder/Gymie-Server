@@ -75,7 +75,7 @@ A client can communicate with Gymie via JSON, with the following format:
 ```
 
 ### List of methods exposed to the client
-- <a name="make">`make`<a>: Instantiates an environment. 
+- <a name="make">`make`</a>: Instantiates an environment. 
  ```js
  // Params:
  {
@@ -88,7 +88,7 @@ A client can communicate with Gymie via JSON, with the following format:
    "instance_id": "unique-id"
  }
  ```
-- <a name="step">`step`<a>: Performs a step on the environment. 
+- <a name="step">`step`</a>: Performs a step on the environment. 
  ```js
  // Params:
  {
@@ -104,7 +104,7 @@ A client can communicate with Gymie via JSON, with the following format:
    {...}, // info
  ]
  ```
-- <a name="reset">`reset`<a>: Resets the environment.
+- <a name="reset">`reset`</a>: Resets the environment.
  ```js
  // Params:
  {
@@ -114,7 +114,7 @@ A client can communicate with Gymie via JSON, with the following format:
  // Response:
  [...] // initial state
  ```
-- <a name="close">`close`<a>: Closes the environment.
+- <a name="close">`close`</a>: Closes the environment.
  ```js
  // Params:
  {
@@ -156,7 +156,7 @@ A client can communicate with Gymie via JSON, with the following format:
  
  // TODO MultiDiscrete
  ```
-- <a name="action_space">`action_space`<a>: Generates a dictionary with action space info.
+- <a name="action_space">`action_space`</a>: Generates a dictionary with action space info.
  ```js
  // Params:
  {
@@ -177,7 +177,7 @@ A client can communicate with Gymie via JSON, with the following format:
    "high":  [1, 1, 1]
  }
  ```
- - <a name="action_sample">`action_sample`<a>: Generates a random action.
+ - <a name="action_sample">`action_sample`</a>: Generates a random action.
 ```js
 // Params:
 {
