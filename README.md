@@ -87,7 +87,7 @@ A client can communicate with Gymie via JSON, with the following format:
    "instance_id": "unique-id"
  }
  ```
-- <a name="step">`step`<a>: Performs a step in the environment. 
+- <a name="step">`step`<a>: Performs a step on the environment. 
  ```js
  // Params:
  {
