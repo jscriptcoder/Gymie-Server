@@ -1,11 +1,12 @@
 import setuptools
+import gymie
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="gymie",
-    version="0.4.2",
+    version=gymie.__version__,
     author="Francisco Ramos",
     author_email="francisco.ramos@researchlab.ai",
     description="WebSocket server that exposes an API to train AI agents on OpenAI Gym and gym-api-like Environments",
