@@ -43,4 +43,132 @@ gymie.start('localhost', 9000)
 
 ## API and how to consume it
 
-// TODO
+A client can communicate with Gymie via JSON, with the following format:
+```json
+{
+  "method": "api_method_name",
+  "params": {
+    "param1": "string",
+    "param2": 6,
+    "param3": true,
+    "param4": []
+  }
+}
+```
+
+#### List of methods
+- `make`: Instantiates an environment. 
+ ```js
+ // Params:
+ {
+   "env_id": "CartPole-v1",
+   "seed":   0 // optional
+ }
+ 
+ // Response:
+ {
+   "instance_id": "unique-id"
+ }
+ ```
+- `step`: Performs a step in the environment. 
+ ```js
+ // Params:
+ {
+   "instance_id": "instance-id"
+   "action":      "CartPole-v1"
+ }
+ 
+ // Response:
+ [
+   [...], // next state
+   -2.0,  // reward
+   false, // done
+   {...}, // info
+ ]
+ ```
+- `reset`: Resets the environment.
+ ```js
+ // Params:
+ {
+   "instance_id": "instance-id"
+ }
+ 
+ // Response:
+ [...] // initial state
+ ```
+- `close`: Closes the environment.
+ ```js
+ // Params:
+ {
+   "instance_id": "instance-id"
+ }
+ 
+ // Response:
+ true
+ ```
+- `observation_space`: Generates a dictionary with abservation space info.
+ ```js
+ // Params:
+ {
+   "instance_id": "instance-id"
+ }
+ 
+ // Response for Discreate observation space:
+ {
+   "name": "Discreate",
+   "n":    4
+ }
+ 
+ // Response for Box (Continuous) observation space:
+ {
+   "name":  "Box",
+   "shape": [3],
+   "low":   [-5, -5, -5],
+   "high":  [5, 5, 5]
+ }
+ 
+ // Response for MultiBinary observation space:
+ {
+   "name":  "MultiBinary",
+   "n":     5,
+   "shape": [5],
+   "low":   [0],
+   "high":  [1]
+ }
+ 
+ // TODO MultiDiscrete
+ ```
+- `action_space`: Generates a dictionary with action space info.
+ ```js
+ // Params:
+ {
+   "instance_id": "instance-id"
+ }
+ 
+ // Response for Discreate actions:
+ {
+   "name": "Discreate",
+   "n":    4
+ }
+ 
+ // Response for Box (Continuous) actions:
+ {
+   "name":  "Box",
+   "shape": [2],
+   "low":   [-1, -1, -1],
+   "high":  [1, 1, 1]
+ }
+ ```
+ - `action_sample`: Generates a random action.
+  ```js
+ // Params:
+ {
+   "instance_id": "instance-id"
+ }
+ 
+ // Response for Discrete actions:
+ 2
+
+ // Response for Continuous actions:
+ [1.52, -3.67]
+ ```
