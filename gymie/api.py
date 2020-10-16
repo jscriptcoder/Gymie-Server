@@ -199,8 +199,6 @@ def space_info(space):
     elif name == 'MultiBinary':
         info['n'] = space.n
         info['shape'] = space.shape
-        info['low'] = [0]
-        info['high'] = [1]
     elif name == 'MultiDiscrete':
         pass
 

@@ -121,8 +121,6 @@ class TestGymieRetro(TestBase):
         self.assertEqual(info['name'], 'MultiBinary')
         self.assertEqual(info['n'], env.action_space.n)
         self.assertEqual(info['shape'], [env.action_space.n])
-        self.assertEqual(info['low'], [0])
-        self.assertEqual(info['high'], [1])
 
     def test_action_sample(self):
         instance_id = self.make_env('Airstriker-Genesis')

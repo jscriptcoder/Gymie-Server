@@ -149,9 +149,7 @@ A client can communicate with Gymie via JSON, with the following format:
  {
    "name":  "MultiBinary",
    "n":     5,
-   "shape": [5],
-   "low":   [0],
-   "high":  [1]
+   "shape": [5]
  }
  
  // TODO MultiDiscrete
@@ -173,8 +171,8 @@ A client can communicate with Gymie via JSON, with the following format:
  {
    "name":  "Box",
    "shape": [2],
-   "low":   [-1, -1, -1],
-   "high":  [1, 1, 1]
+   "low":   [-1, -1],
+   "high":  [1, 1]
  }
  ```
  - <a name="action_sample">`action_sample`</a>: Generates a random action.
