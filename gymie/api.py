@@ -198,11 +198,10 @@ def space_info(space):
         info['high'] = space.high.astype('float64').tolist()
     elif name == 'MultiBinary':
         info['n'] = space.n
-        info['shape'] = space.shape
+        info['shape'] = space.shape # TODO: does it make sense to return this?
     elif name == 'MultiDiscrete':
+        # TODO: finish this one.
         pass
-
-    # TODO other shapes
 
     return info
 
