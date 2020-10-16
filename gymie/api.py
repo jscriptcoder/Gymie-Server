@@ -172,8 +172,8 @@ def close(ws, instance_id):
     lookup_env(instance_id).close()
     del envs[instance_id]
 
-    isClosed = instance_id not in envs
-    ws.send(json.dumps(isClosed))
+    is_closed = instance_id not in envs
+    ws.send(json.dumps(is_closed))
 
 def space_info(space):
     """Returns information about the space in a dictionary
