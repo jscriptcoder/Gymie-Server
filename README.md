@@ -1,5 +1,7 @@
 # Gymie - Server
 
+[![PyPI version](https://badge.fury.io/py/gymie.svg)](https://badge.fury.io/py/gymie)
+
 WebSocket server that exposes an API to train AI agents on [OpenAI Gym](https://gym.openai.com/) and gym-api like environments such as [Gym Retro](https://openai.com/blog/gym-retro/) or [Unity ML-Agents](https://unity3d.com/machine-learning/), this last one with the help of [gym wrapper](https://github.com/Unity-Technologies/ml-agents/tree/master/gym-unity)
 
 ## Content of this document
