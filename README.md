@@ -26,13 +26,13 @@ WebSocket server that exposes an API to train AI agents on [OpenAI Gym](https://
 
 Gymie can be installed using:
 
-```
+```bash
 $ pip install gymie
 ```
 
 or by cloning the [repo](https://github.com/jscriptcoder/Gymie-Server) and pip-installing in editable mode from the folder:
 
-```
+```bash
 $ git clone https://github.com/jscriptcoder/Gymie-Server.git
 Cloning into 'Gymie-Server'...
 ...
@@ -48,7 +48,7 @@ Successfully installed gymie
 
 You can start the server from the command line:
 
-```
+```bash
 $ python -m gymie --host 0.0.0.0 --port 5000
 (84581) wsgi starting up on http://0.0.0.0:5000
 ```
@@ -245,7 +245,7 @@ gymie.start('localhost', 8080)
 ## Testing Gymie
 
 You can run all the tests by executing `run_tests.sh` script:
-```
+```bash
 $ ./run_tests.sh
 ```
 
