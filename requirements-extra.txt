@@ -1,0 +1,4 @@
+box2d-py==2.3.8
+gym-retro==0.8.0
+mlagents-envs==0.20.0
+gym-unity==0.20.0
