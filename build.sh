@@ -11,6 +11,6 @@ if [[ -z "$2" ]]; then
 fi
 
 rm -rf dist
-bumpversion --current-version $1 $2 gymie/__init__.py
+bumpversion --current-version $1 $2
 git push --tags
 python setup.py sdist bdist_wheel
