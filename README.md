@@ -1,11 +1,11 @@
 # Gymie - Server
 
-<a href="https://pypi.org/project/gymie/"><img alt="PyPI" src="https://img.shields.io/pypi/v/gymie?label=PyPI%20Package" /></a>
-<a href="https://www.npmjs.com/package/gymie"><img alt="npm" src="https://img.shields.io/npm/v/gymie?label=NPM%3A%20Gymie%20Client" /></a>
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/jscriptcoder/Gymie-Server/main/images/gymie-server_logo2.svg" height="250" />
 </p>
+
+<a href="https://pypi.org/project/gymie/"><img alt="PyPI" src="https://img.shields.io/pypi/v/gymie?label=PyPI%20Package" /></a>
+<a href="https://www.npmjs.com/package/gymie"><img alt="npm" src="https://img.shields.io/npm/v/gymie?label=NPM%3A%20Gymie%20Client" /></a>
 
 WebSocket server that exposes an API to train AI agents on [OpenAI Gym](https://gym.openai.com/) and gym-api like environments such as [Gym Retro](https://openai.com/blog/gym-retro/) or [Unity ML-Agents](https://unity3d.com/machine-learning/), this last one with the help of [gym wrapper](https://github.com/Unity-Technologies/ml-agents/tree/master/gym-unity)
 
