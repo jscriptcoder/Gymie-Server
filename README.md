@@ -4,7 +4,7 @@
 <a href="https://www.npmjs.com/package/gymie"><img alt="npm" src="https://img.shields.io/npm/v/gymie?label=NPM%3A%20Gymie%20Client" /></a>
 
 <p align="center">
-  <img src="gymie-server_logo.svg" width="200" />
+  <img src="images/gymie-server_logo.svg" width="250" />
 </p>
 
 WebSocket server that exposes an API to train AI agents on [OpenAI Gym](https://gym.openai.com/) and gym-api like environments such as [Gym Retro](https://openai.com/blog/gym-retro/) or [Unity ML-Agents](https://unity3d.com/machine-learning/), this last one with the help of [gym wrapper](https://github.com/Unity-Technologies/ml-agents/tree/master/gym-unity)
