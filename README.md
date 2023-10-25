@@ -259,3 +259,5 @@ In order to run [`test_gymie_retro.py`](tests/test_gymie_retro.py) you need to h
 ## License
 
 [MIT License](LICENSE) - Copyright (c) 2020 Francisco Ramos
+
+<!-- sort 1 -->
